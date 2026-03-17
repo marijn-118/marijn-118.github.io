@@ -18,6 +18,28 @@
             line-height: 1.6;
             overflow-x: hidden;
         }
+
+        /* ADDED: Sticky Navigation Bar */
+        nav {
+            position: sticky;
+            top: 0;
+            background-color: #0f3460; /* Matches the header gradient */
+            padding: 15px 20px;
+            text-align: center;
+            z-index: 1000; /* Keeps it on top of the charts */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+        nav a:hover {
+            color: #16c79a; /* Teal hover effect */
+        }
         
         /* Header Section */
         header {
@@ -56,8 +78,10 @@
             /* Elements start hidden and pushed down */
             opacity: 0;
             transform: translateY(60px);
-            /* The transition dictates how smooth and gradual the reveal is */
             transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            
+            /* ADDED: Creates a small buffer so the sticky nav doesn't cover the title when clicked */
+            scroll-margin-top: 80px; 
         }
         
         /* This class gets added by JavaScript when you scroll to the element */
@@ -120,10 +144,18 @@
             h1 { font-size: 2rem; }
             .viz-section { padding: 15px; }
             iframe { height: 400px; }
+            /* Make nav links stack on very small screens */
+            nav a { display: inline-block; margin: 5px 10px; font-size: 1rem; }
         }
     </style>
 </head>
 <body>
+
+    <nav>
+        <a href="#trends">Yearly Trends</a>
+        <a href="#patterns">Hourly Patterns</a>
+        <a href="#hotspots">Geospatial Hotspots</a>
+    </nav>
 
     <header>
         <h1>SF Crime: Two Decades of Data</h1>
@@ -133,19 +165,19 @@
     </header>
 
     <main>
-        <div class="viz-section">
+        <div id="trends" class="viz-section">
             <h2>Yearly Crime Trends</h2>
             <p>Large dips for several crimes during covid (2020) such as theft and assault. Burglaries showed a initial increase in 2020.</p>
             <img src="images/yearly_crime_trends2.png" alt="Yearly crime trends in SF">
         </div>
 
-        <div class="viz-section">
+        <div id="patterns" class="viz-section">
             <h2>Hourly Crime Patterns</h2>
             <p>This interactive Plotly chart shows the distribution of crimes across different hours of the day. Click on the legend to isolate specific crime types and observe their temporal patterns.</p>
             <iframe src="visualizations/crime_hourly_interactive.html"></iframe>
         </div>
 
-        <div class="viz-section">
+        <div id="hotspots" class="viz-section">
             <h2>Geospatial Hotspots</h2>
             <p>This Folium heatmap visualizes the geographic distribution of crimes in San Francisco. The feedback loop of policing can be seen in the clustering of incidents in certain neighborhoods, which may influence resource allocation and patrol strategies.</p>
             <iframe src="visualizations/sf_crime_heatmap.html"></iframe>
@@ -158,26 +190,20 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Grab all the visualization sections
             const sections = document.querySelectorAll('.viz-section');
             
-            // Set up the observer
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
-                    // If the section scrolls into view, add the 'active' class
                     if (entry.isIntersecting) {
                         entry.target.classList.add('active');
                     } else {
-                        // If it leaves the view, remove the class so it can animate again!
                         entry.target.classList.remove('active');
                     }
                 });
             }, {
-                // Trigger when 15% of the card is visible
                 threshold: 0.15 
             });
 
-            // Tell the observer to watch each section
             sections.forEach(section => {
                 observer.observe(section);
             });
