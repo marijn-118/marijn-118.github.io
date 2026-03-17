@@ -6,6 +6,9 @@
     <title>SF Crime: Two Decades of Data</title>
     <style>
         /* Base Dark Theme & Typography */
+        html {
+            scroll-behavior: smooth;
+        }
         body {
             background-color: #1a1a2e;
             color: #e2e2e2;
@@ -13,6 +16,7 @@
             margin: 0;
             padding: 0;
             line-height: 1.6;
+            overflow-x: hidden;
         }
         
         /* Header Section */
@@ -40,26 +44,50 @@
             margin: 40px auto;
             padding: 0 20px;
         }
+        
+        /* The Card Base - Set up for the Scroll Reveal */
         .viz-section {
             background-color: #16213e;
             border-radius: 12px;
             padding: 30px;
             margin-bottom: 40px;
             box-shadow: 0 8px 16px rgba(0,0,0,0.3);
-            transition: transform 0.3s ease;
+            
+            /* Elements start hidden and pushed down */
+            opacity: 0;
+            transform: translateY(60px);
+            /* The transition dictates how smooth and gradual the reveal is */
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
+        
+        /* This class gets added by JavaScript when you scroll to the element */
+        .viz-section.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         .viz-section:hover {
-            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.5);
         }
+
+        /* Fix for PNG readability */
+        .viz-section:first-of-type {
+            background-color: #dfe6e9; 
+            color: #2d3436; 
+        }
+        .viz-section:first-of-type h2 {
+            color: #0f3460; 
+        }
+
         h2 {
             color: #16c79a;
             margin-top: 0;
             border-bottom: 1px solid #2a3a5a;
             padding-bottom: 10px;
         }
-        .user-text-placeholder {
-            color: #ff9f43; /* Orange to remind you to change it! */
-            font-style: italic;
+        
+        .viz-section p {
+            font-size: 1.05rem;
             margin-bottom: 20px;
         }
 
@@ -69,7 +97,7 @@
             height: 500px;
             border: none;
             border-radius: 8px;
-            background-color: #ffffff; /* Keeps Folium/Plotly backgrounds clean */
+            background-color: #ffffff; 
         }
         img {
             max-width: 100%;
@@ -86,6 +114,13 @@
             border-top: 1px solid #2a3a5a;
             margin-top: 40px;
         }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .viz-section { padding: 15px; }
+            iframe { height: 400px; }
+        }
     </style>
 </head>
 <body>
@@ -100,19 +135,19 @@
     <main>
         <div class="viz-section">
             <h2>Yearly Crime Trends</h2>
-            <p class="user-text-placeholder">Large dips for several crimes during covid (2020) such as theft and assault. Burglaries showed a initial increase in 2020.</p>
+            <p>Large dips for several crimes during covid (2020) such as theft and assault. Burglaries showed a initial increase in 2020.</p>
             <img src="images/yearly_crime_trends2.png" alt="Yearly crime trends in SF">
         </div>
 
         <div class="viz-section">
             <h2>Hourly Crime Patterns</h2>
-            <p class="user-text-placeholder">This interactive Plotly chart shows the distribution of crimes across different hours of the day. Click on the legend to isolate specific crime types and observe their temporal patterns.</p>
+            <p>This interactive Plotly chart shows the distribution of crimes across different hours of the day. Click on the legend to isolate specific crime types and observe their temporal patterns.</p>
             <iframe src="visualizations/crime_hourly_interactive.html"></iframe>
         </div>
 
         <div class="viz-section">
             <h2>Geospatial Hotspots</h2>
-            <p class="user-text-placeholder">This Folium heatmap visualizes the geographic distribution of crimes in San Francisco. The feedback loop of policing can be seen in the clustering of incidents in certain neighborhoods, which may influence resource allocation and patrol strategies.</p>
+            <p>This Folium heatmap visualizes the geographic distribution of crimes in San Francisco. The feedback loop of policing can be seen in the clustering of incidents in certain neighborhoods, which may influence resource allocation and patrol strategies.</p>
             <iframe src="visualizations/sf_crime_heatmap.html"></iframe>
         </div>
     </main>
@@ -121,5 +156,32 @@
         <p>Created for Social Data Analysis 2026. Interactive elements built with Plotly and Folium.</p>
     </footer>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Grab all the visualization sections
+            const sections = document.querySelectorAll('.viz-section');
+            
+            // Set up the observer
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    // If the section scrolls into view, add the 'active' class
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    } else {
+                        // If it leaves the view, remove the class so it can animate again!
+                        entry.target.classList.remove('active');
+                    }
+                });
+            }, {
+                // Trigger when 15% of the card is visible
+                threshold: 0.15 
+            });
+
+            // Tell the observer to watch each section
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
 </body>
 </html>
