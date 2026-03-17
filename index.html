@@ -1,10 +1,53 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My Data Viz Site</title>
+    <meta charset="UTF-8">
+    <title>SF Crime Data Visualizations</title>
+    <style>
+        body { 
+            font-family: 'Helvetica Neue', Arial, sans-serif; 
+            margin: 40px auto; 
+            max-width: 800px; 
+            color: #333; 
+            line-height: 1.6; 
+            padding: 0 20px;
+        }
+        h1, h2 { color: #2d3436; }
+        .viz-container { margin-bottom: 60px; }
+        iframe { 
+            width: 100%; 
+            height: 600px; 
+            border: 1px solid #dfe6e9; 
+            border-radius: 8px; 
+        }
+        img { 
+            max-width: 100%; 
+            height: auto; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+        }
+    </style>
 </head>
 <body>
-    <h1>Hello World!</h1>
-    <p>This site will soon contain interactive data visualizations about crime in San Francisco.</p>
+    <h1>San Francisco Crime Analysis</h1>
+    <p>Welcome to my interactive exploration of SF crime data. Below are three key visualizations showcasing spatial and temporal trends.</p>
+
+    <div class="viz-container">
+        <h2>1. Yearly Crime Trends</h2>
+        <p>A high-level overview of incident volume over the years.</p>
+        <img src="images/yearly_crime_trends.png" alt="Yearly crime trends in SF">
+    </div>
+
+    <div class="viz-container">
+        <h2>2. Hourly Crime Patterns</h2>
+        <p>Interactive breakdown of when different crimes occur. Click the legend to toggle categories!</p>
+        <iframe src="visualizations/crime_hourly_interactive.html"></iframe>
+    </div>
+
+    <div class="viz-container">
+        <h2>3. SF Crime Heatmap</h2>
+        <p>Geographic hotspots across the city. You can pan and zoom to explore specific streets.</p>
+        <iframe src="visualizations/sf_crime_heatmap.html"></iframe>
+    </div>
 </body>
 </html>
