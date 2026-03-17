@@ -2,52 +2,124 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>SF Crime Data Visualizations</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SF Crime: Two Decades of Data</title>
     <style>
-        body { 
-            font-family: 'Helvetica Neue', Arial, sans-serif; 
-            margin: 40px auto; 
-            max-width: 800px; 
-            color: #333; 
-            line-height: 1.6; 
+        /* Base Dark Theme & Typography */
+        body {
+            background-color: #1a1a2e;
+            color: #e2e2e2;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        
+        /* Header Section */
+        header {
+            background: linear-gradient(135deg, #0f3460 0%, #1a1a2e 100%);
+            padding: 60px 20px;
+            text-align: center;
+            border-bottom: 3px solid #16c79a;
+        }
+        h1 {
+            color: #ffffff;
+            font-size: 2.5rem;
+            margin: 0 0 10px 0;
+        }
+        .intro-text {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            color: #b0b0c0;
+        }
+
+        /* Main Content Grid */
+        main {
+            max-width: 1200px;
+            margin: 40px auto;
             padding: 0 20px;
         }
-        h1, h2 { color: #2d3436; }
-        .viz-container { margin-bottom: 60px; }
-        iframe { 
-            width: 100%; 
-            height: 600px; 
-            border: 1px solid #dfe6e9; 
-            border-radius: 8px; 
+        .viz-section {
+            background-color: #16213e;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
         }
-        img { 
-            max-width: 100%; 
-            height: auto; 
-            border-radius: 8px; 
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+        .viz-section:hover {
+            transform: translateY(-5px);
+        }
+        h2 {
+            color: #16c79a;
+            margin-top: 0;
+            border-bottom: 1px solid #2a3a5a;
+            padding-bottom: 10px;
+        }
+        .user-text-placeholder {
+            color: #ff9f43; /* Orange to remind you to change it! */
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        /* Visualization Embeds */
+        iframe {
+            width: 100%;
+            height: 500px;
+            border: none;
+            border-radius: 8px;
+            background-color: #ffffff; /* Keeps Folium/Plotly backgrounds clean */
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #b0b0c0;
+            font-size: 0.9rem;
+            border-top: 1px solid #2a3a5a;
+            margin-top: 40px;
         }
     </style>
 </head>
 <body>
-    <h1>San Francisco Crime Analysis</h1>
-    <p>Welcome to my interactive exploration of SF crime data. Below are three key visualizations showcasing spatial and temporal trends.</p>
 
-    <div class="viz-container">
-        <h2>1. Yearly Crime Trends</h2>
-        <p>A high-level overview of incident volume over the years.</p>
-        <img src="images/yearly_crime_trends2.png" alt="Yearly crime trends in SF">
-    </div>
+    <header>
+        <h1>SF Crime: Two Decades of Data</h1>
+        <p class="intro-text">
+            Welcome to my page analyzing crime trends in San Francisco. I will show a few vizualiazations that I created to explore the data. The visualizations include a static plot of yearly crime trends, an interactive Plotly chart of hourly crime patterns, and a Folium heatmap showing geospatial hotspots. Each visualization is accompanied by an explanation of the key insights and findings.
+        </p>
+    </header>
 
-    <div class="viz-container">
-        <h2>2. Hourly Crime Patterns</h2>
-        <p>Interactive breakdown of when different crimes occur. Click the legend to toggle categories!</p>
-        <iframe src="visualizations/crime_hourly_interactive.html"></iframe>
-    </div>
+    <main>
+        <div class="viz-section">
+            <h2>Yearly Crime Trends</h2>
+            <p class="user-text-placeholder">Large dips for several crimes during covid (2020) such as theft and assault. Burglaries showed a initial increase in 2020.</p>
+            <img src="images/yearly_crime_trends2.png" alt="Yearly crime trends in SF">
+        </div>
 
-    <div class="viz-container">
-        <h2>3. SF Crime Heatmap</h2>
-        <p>Geographic hotspots across the city. You can pan and zoom to explore specific streets.</p>
-        <iframe src="visualizations/sf_crime_heatmap.html"></iframe>
-    </div>
+        <div class="viz-section">
+            <h2>Hourly Crime Patterns</h2>
+            <p class="user-text-placeholder">This interactive Plotly chart shows the distribution of crimes across different hours of the day. Click on the legend to isolate specific crime types and observe their temporal patterns.</p>
+            <iframe src="visualizations/crime_hourly_interactive.html"></iframe>
+        </div>
+
+        <div class="viz-section">
+            <h2>Geospatial Hotspots</h2>
+            <p class="user-text-placeholder">This Folium heatmap visualizes the geographic distribution of crimes in San Francisco. The feedback loop of policing can be seen in the clustering of incidents in certain neighborhoods, which may influence resource allocation and patrol strategies.</p>
+            <iframe src="visualizations/sf_crime_heatmap.html"></iframe>
+        </div>
+    </main>
+
+    <footer>
+        <p>Created for Social Data Analysis 2026. Interactive elements built with Plotly and Folium.</p>
+    </footer>
+
 </body>
 </html>
