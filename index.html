@@ -3,211 +3,183 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SF Crime: Two Decades of Data</title>
+    <title>The Illusion of the Average Neighborhood</title>
     <style>
-        /* Base Dark Theme & Typography */
-        html {
-            scroll-behavior: smooth;
-        }
+        /* Magazine Style CSS */
         body {
-            background-color: #1a1a2e;
-            color: #e2e2e2;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #fcfcfc;
+            color: #333333;
+            font-family: 'Merriweather', Georgia, serif; 
             margin: 0;
             padding: 0;
-            line-height: 1.6;
-            overflow-x: hidden;
+            line-height: 1.8;
+            font-size: 18px;
         }
 
-        /* ADDED: Sticky Navigation Bar */
-        nav {
-            position: sticky;
-            top: 0;
-            background-color: #0f3460; /* Matches the header gradient */
-            padding: 15px 20px;
-            text-align: center;
-            z-index: 1000; /* Keeps it on top of the charts */
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-        nav a {
-            color: #ffffff;
-            text-decoration: none;
-            margin: 0 20px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            transition: color 0.3s ease;
-        }
-        nav a:hover {
-            color: #16c79a; /* Teal hover effect */
-        }
-        
-        /* Header Section */
+        /* Header / Title Area */
         header {
-            background: linear-gradient(135deg, #0f3460 0%, #1a1a2e 100%);
-            padding: 60px 20px;
-            text-align: center;
-            border-bottom: 3px solid #16c79a;
+            max-width: 700px;
+            margin: 80px auto 40px auto;
+            padding: 0 20px;
+            text-align: left;
         }
         h1 {
-            color: #ffffff;
-            font-size: 2.5rem;
-            margin: 0 0 10px 0;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 3rem;
+            line-height: 1.2;
+            color: #111;
+            margin-bottom: 10px;
         }
-        .intro-text {
-            max-width: 800px;
-            margin: 0 auto;
-            font-size: 1.1rem;
-            color: #b0b0c0;
-        }
-
-        /* Main Content Grid */
-        main {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-        
-        /* The Card Base - Set up for the Scroll Reveal */
-        .viz-section {
-            background-color: #16213e;
-            border-radius: 12px;
-            padding: 30px;
-            margin-bottom: 40px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
-            
-            /* Elements start hidden and pushed down */
-            opacity: 0;
-            transform: translateY(60px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-            
-            /* ADDED: Creates a small buffer so the sticky nav doesn't cover the title when clicked */
-            scroll-margin-top: 80px; 
-        }
-        
-        /* This class gets added by JavaScript when you scroll to the element */
-        .viz-section.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .viz-section:hover {
-            box-shadow: 0 12px 24px rgba(0,0,0,0.5);
-        }
-
-        /* Fix for PNG readability */
-        .viz-section:first-of-type {
-            background-color: #dfe6e9; 
-            color: #2d3436; 
-        }
-        .viz-section:first-of-type h2 {
-            color: #0f3460; 
-        }
-
-        h2 {
-            color: #16c79a;
+        .subtitle {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 1.4rem;
+            color: #666;
             margin-top: 0;
-            border-bottom: 1px solid #2a3a5a;
-            padding-bottom: 10px;
+            font-weight: 300;
+        }
+        .byline {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 0.9rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 20px;
+            margin-top: 30px;
+        }
+
+        /* Article Body */
+        article {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 0 20px 80px 20px;
+        }
+        p {
+            margin-bottom: 25px;
         }
         
-        .viz-section p {
-            font-size: 1.05rem;
+        /* Visually distinct Subheadings */
+        h2 {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 1.8rem;
+            color: #111;
+            margin-top: 50px;
             margin-bottom: 20px;
         }
 
-        /* Visualization Embeds */
-        iframe {
-            width: 100%;
-            height: 500px;
-            border: none;
-            border-radius: 8px;
-            background-color: #ffffff; 
+        /* Figure Styling */
+        figure {
+            margin: 50px -50px; 
+            padding: 0;
+            text-align: center; 
         }
         img {
             max-width: 100%;
             height: auto;
-            border-radius: 8px;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: #b0b0c0;
+        iframe {
+            width: 100%;
+            height: 550px;
+            border: none;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            background-color: white;
+        }
+        
+        /* Required Captions */
+        figcaption {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
             font-size: 0.9rem;
-            border-top: 1px solid #2a3a5a;
-            margin-top: 40px;
+            color: #555;
+            margin-top: 15px;
+            padding-left: 10px;
+            border-left: 3px solid #e0e0e0;
+            line-height: 1.5;
+            text-align: left; 
         }
 
-        /* Mobile Responsiveness */
-        @media (max-width: 768px) {
-            h1 { font-size: 2rem; }
-            .viz-section { padding: 15px; }
-            iframe { height: 400px; }
-            /* Make nav links stack on very small screens */
-            nav a { display: inline-block; margin: 5px 10px; font-size: 1rem; }
+        /* References Section */
+        .references {
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 2px solid #111;
+            font-size: 0.9rem;
+        }
+        .references h3 {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            margin-bottom: 10px;
+        }
+        .references ul {
+            padding-left: 20px;
+        }
+        .references li {
+            margin-bottom: 10px;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 800px) {
+            figure { margin: 40px 0; }
+            h1 { font-size: 2.2rem; }
         }
     </style>
 </head>
 <body>
 
-    <nav>
-        <a href="#trends">Yearly Trends</a>
-        <a href="#patterns">Hourly Patterns</a>
-        <a href="#hotspots">Geospatial Hotspots</a>
-    </nav>
-
     <header>
-        <h1>SF Crime: Two Decades of Data</h1>
-        <p class="intro-text">
-            Welcome to my page analyzing crime trends in San Francisco. I will show a few vizualiazations that I created to explore the data. The visualizations include a static plot of yearly crime trends, an interactive Plotly chart of hourly crime patterns, and a Folium heatmap showing geospatial hotspots. Each visualization is accompanied by an explanation of the key insights and findings.
-        </p>
+        <h1>The Illusion of the Average Neighborhood</h1>
+        <p class="subtitle">Twenty years of San Francisco crime data reveals a startling truth: "average" crime rates don't exist, and the data we trust most might be lying to us.</p>
+        <p class="byline">By A Student | Social Data Analysis 2026</p>
     </header>
 
-    <main>
-        <div id="trends" class="viz-section">
-            <h2>Yearly Crime Trends</h2>
-            <p>Large dips for several crimes during covid (2020) such as theft and assault. Burglaries showed a initial increase in 2020.</p>
-            <img src="images/yearly_crime_trends2.png" alt="Yearly crime trends in SF">
-        </div>
+    <article>
+        <p>When we look for a place to live, we often rely on simple metrics. We check real estate sites or crime maps that label entire districts as "safe" or "dangerous" based on a single average number. But averages have a nasty habit of hiding the truth.</p>
+        
+        <p>To see how misleading this can be, I dug into over two decades of incident reports from SF OpenData (2003–Present). By mapping out millions of data points, it became clear that the idea of a uniformly dangerous neighborhood is a myth. Crime doesn't spread like a blanket; it clusters in highly specific, localized ways that challenge how we think about policing and city planning.</p>
 
-        <div id="patterns" class="viz-section">
-            <h2>Hourly Crime Patterns</h2>
-            <p>This interactive Plotly chart shows the distribution of crimes across different hours of the day. Click on the legend to isolate specific crime types and observe their temporal patterns.</p>
-            <iframe src="visualizations/crime_hourly_interactive.html"></iframe>
-        </div>
+        <h2>1. The Spatial Power Law</h2>
+        <p>Take Larceny Theft—the most common crime in San Francisco. If you average the thefts across a large district like the Mission, the number looks terrible. But when you break the city down into a grid of 100m x 100m squares, a different reality emerges. Most of the grid is completely quiet. In my analysis, the vast majority of blocks had practically zero thefts. Instead, the crime was driven by a handful of extreme outliers—specific corners or parking lots that accounted for thousands of incidents.</p>
+        
+        <figure>
+            <img src="images/power_law_plot.png" alt="Log-log plot showing power law distribution of theft">
+            <figcaption><strong>Figure 1: The Power Law of Theft.</strong> The linear plot (left) is practically unreadable because nearly all data points are clustered near zero. The log-log plot (right) reveals the truth: theft follows a power-law distribution. The steep downward slope shows that while thousands of 100m blocks see almost no crime, a tiny fraction of blocks experience massive, extreme volumes of theft.</figcaption>
+        </figure>
 
-        <div id="hotspots" class="viz-section">
-            <h2>Geospatial Hotspots</h2>
-            <p>This Folium heatmap visualizes the geographic distribution of crimes in San Francisco. The feedback loop of policing can be seen in the clustering of incidents in certain neighborhoods, which may influence resource allocation and patrol strategies.</p>
+        <p>This is the problem with relying on an "average" crime rate. If one massive hotspot is dragging up the stats for an entire zip code, treating the whole district as dangerous isn't just statistically wrong—it unfairly stigmatizes the people living on the 99% of blocks that are perfectly safe.</p>
+
+        <h2>2. The Rhythm of Enforcement</h2>
+        <p>If crime is so concentrated in space, it is equally concentrated in time. Certain crimes march to a very specific, predictable beat. But why? Is it because criminals all coordinate their schedules, or is it because we are actually measuring police behavior?</p>
+
+        <figure>
+            <iframe src="visualizations/interactive_heatmap.html"></iframe>
+            <figcaption><strong>Figure 2: Temporal Crime Heatmap.</strong> Hover over the blocks to explore the exact incident counts. Notice how the activity forms strict, undeniable patterns across certain hours of the week, dipping drastically during daytime shifts and peaking late at night.</figcaption>
+        </figure>
+
+        <p>This interactive heatmap shows that crime doesn't just happen randomly—it follows the rhythms of the city and, more importantly, the rhythms of patrols. Some offenses are essentially "crimes of enforcement." Unlike a stolen car, which gets reported regardless of who is around, a drug offense usually only appears in the dataset if an officer is physically there to make an arrest.</p>
+
+        <h2>3. The Dirty Data Feedback Loop</h2>
+        <p>This brings us to a dangerous phenomenon in spatial mapping. If an algorithm maps out enforcement-heavy crimes, it doesn't show us where all the crime is happening—it shows us where the police are currently standing.</p>
+
+        <figure>
             <iframe src="visualizations/sf_crime_heatmap.html"></iframe>
+            <figcaption><strong>Figure 3: Enforcement Hotspots.</strong> This Folium heatmap shows intense, glowing hotspots primarily clustered in the Tenderloin and the Mission. Because many of these arrests require police presence, this map is likely a better representation of patrol allocation than actual city-wide offense rates.</figcaption>
+        </figure>
+
+        <p>If a predictive policing algorithm looks at this map, it concludes the Tenderloin is overrun, and commands the department to send more officers there. Those extra officers make more arrests simply by being present, which makes the map glow even redder the following year. As Richardson et al. point out, this is "dirty data." The algorithm isn't predicting new crime; it is just creating a feedback loop that confirms its own bias and artificially inflates the perceived danger of specific neighborhoods.</p>
+
+        <h2>Conclusion</h2>
+        <p>Data visualization is powerful, but it can easily lie to us if we don't ask the right questions. We cannot rely on neighborhood averages when crime is hyper-concentrated on single street corners. We cannot treat all data points equally when some crimes measure public behavior and others measure police behavior. If we train predictive policing models on historical data without understanding these nuances, we aren't predicting the future—we are just hardcoding the biases of the past.</p>
+
+        <div class="references">
+            <h3>Sources & Further Reading</h3>
+            <ul>
+                <li>Richardson, Rashida, Jason M. Schultz, and Kate Crawford. "Dirty Data, Bad Predictions: How Civil Rights Violations Impact Police Data." <em>New York University Law Review Online</em>, 2019.</li>
+                <li>Data sourced from SF OpenData: Police Department Incident Reports (2003 - Present).</li>
+                <li>Segel, Edward, and Jeffrey Heer. "Narrative Visualization: Telling Stories with Data." <em>IEEE Transactions on Visualization and Computer Graphics</em>, 2010.</li>
+            </ul>
         </div>
-    </main>
+    </article>
 
-    <footer>
-        <p>Created for Social Data Analysis 2026. Interactive elements built with Plotly and Folium.</p>
-    </footer>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const sections = document.querySelectorAll('.viz-section');
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('active');
-                    } else {
-                        entry.target.classList.remove('active');
-                    }
-                });
-            }, {
-                threshold: 0.15 
-            });
-
-            sections.forEach(section => {
-                observer.observe(section);
-            });
-        });
-    </script>
 </body>
 </html>
