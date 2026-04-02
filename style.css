@@ -118,6 +118,18 @@ h2 {
     margin-bottom: 25px;
 }
 
+.source-link {
+    color: #0f3460;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+    font-weight: 600;
+}
+
+.source-link:hover {
+    color: #007bff;
+}
+
 /* Figure and Embedded Media Styling */
 figure {
     margin: 40px 0;
@@ -159,6 +171,7 @@ figcaption {
     border-top: 1px solid #ccc;
     font-size: 0.9rem;
     color: #666;
+    scroll-margin-top: 90px;
 }
 
 .references h3 {

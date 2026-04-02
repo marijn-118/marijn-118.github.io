@@ -28,12 +28,12 @@
     <main>
         <div class="intro-text">
             <p>When people look for a place to live, they usually want a simple answer: is this neighborhood safe or not? That makes sense, but averages can hide a lot. A district can look risky on paper even when most of its blocks are quiet.</p>
-            <p>To dig into that, I used more than two decades of incident reports from SF OpenData. The dataset includes time, category, and location, but it is still a record of police-reported incidents, not a perfect measure of every crime that happened. Once the data is mapped out, the picture gets clearer: crime is not spread evenly across the city. It tends to gather in specific corners, blocks, and time windows, which changes how we should think about policing and city planning.</p>
+            <p>To dig into that, we used more than two decades of incident reports from <a href="#data-current" class="source-link">SF OpenData</a> and <a href="#data-historical" class="source-link">its historical incident archive</a>. The dataset includes time, category, and location, but it is still a record of police-reported incidents, not a perfect measure of every crime that happened. Once the data is mapped out, the picture gets clearer: crime is not spread evenly across the city. It tends to gather in specific corners, blocks, and time windows, which changes how we should think about policing and city planning.</p>
         </div>
 
         <div id="power-law" class="viz-section">
             <h2>1. Where the Crime Actually Shows Up</h2>
-            <p>Larceny theft is the most common offense in San Francisco, but the city-wide average does not tell the full story. When the city is broken into 100m by 100m blocks, most of those blocks are quiet. A small number of places carry a huge share of the incidents, while everything around them looks very different.</p>
+            <p>Larceny theft is the most common offense in San Francisco, but the city-wide average does not tell the full story. Research on crime concentration shows that this kind of pattern is normal in place-based crime data, not an exception <a href="#weisburd" class="source-link">[Weisburd, 2015]</a> and is consistent with broader reviews of crime concentration at places <a href="#lee" class="source-link">[Lee et al., 2017]</a>. When the city is broken into 100m by 100m blocks, most of those blocks are quiet. A small number of places carry a huge share of the incidents, while everything around them looks very different.</p>
             
             <figure>
                 <img src="images/power_law_plot.png" alt="Log-log plot showing power law distribution of theft">
@@ -45,7 +45,7 @@
 
         <div id="rhythms" class="viz-section">
             <h2>2. When the Patterns Repeat</h2>
-            <p>If crime is clustered in space, it is often clustered in time too. Some offenses seem to follow a clear rhythm, but that rhythm is not always about criminal behavior. In some cases, it is also shaped by when police are present and what they are able to record.</p>
+            <p>If crime is clustered in space, it is often clustered in time too. Some offenses seem to follow a clear rhythm, but that rhythm is not always about criminal behavior. In some cases, it is also shaped by when police are present and what they are able to record <a href="#lum" class="source-link">[Lum & Isaac, 2016]</a>.</p>
 
             <figure>
                 <iframe src="visualizations/interactive_heatmap.html"></iframe>
@@ -57,29 +57,31 @@
 
         <div id="feedback" class="viz-section">
             <h2>3. How Data Can Feed Itself</h2>
-            <p>This is where the risk starts. If a map is built mostly from enforcement-heavy incidents, it can end up showing where police spend time, not just where harm is happening.</p>
+            <p>This is where the risk starts. If a map is built mostly from enforcement-heavy incidents, it can end up showing where police spend time, not just where harm is happening <a href="#richardson" class="source-link">[Richardson et al., 2019]</a>.</p>
 
             <figure>
                 <iframe src="visualizations/sf_crime_heatmap.html"></iframe>
                 <figcaption><strong>Figure 3: Enforcement Hotspots.</strong> This Folium heatmap shows strong hotspots in a few neighborhoods, especially the Tenderloin and the Mission. Because many of the incidents depend on police presence, the map may say as much about patrol allocation as it does about city-wide offense rates.</figcaption>
             </figure>
 
-            <p>If a predictive policing model learns from that kind of map, it can start to repeat the same pattern over and over. More officers in one place means more recorded incidents there, which makes the next map look even more concentrated. That is the kind of loop researchers have warned about: the model is not simply describing reality, it is helping shape the data that comes next.</p>
+            <p>If a predictive policing model learns from that kind of map, it can start to repeat the same pattern over and over. More officers in one place means more recorded incidents there, which makes the next map look even more concentrated. That is the kind of loop researchers have warned about: the model is not simply describing reality, it is helping shape the data that comes next <a href="#ensign" class="source-link">[Ensign et al., 2018]</a>.</p>
         </div>
 
         <div id="conclusion" class="viz-section">
             <h2>Conclusion</h2>
-            <p>Data visualization is useful, but it can also be misleading if we read it too quickly. Neighborhood averages miss how concentrated crime can be. They also miss the fact that some of the data reflects police activity as much as public activity. If we want to understand a city honestly, we have to look past the average and ask what the map is actually measuring.</p>
+            <p>Data visualization is useful, but it can also be misleading if we read it too quickly. Neighborhood averages miss how concentrated crime can be. They also miss the fact that some of the data reflects police activity as much as public activity. If we want to understand a city honestly, we have to look past the average and ask what the map is actually measuring <a href="#segel" class="source-link">[Segel & Heer, 2010]</a>.</p>
 
-            <div class="references">
+            <div class="references" id="sources">
                 <h3>Sources & Further Reading</h3>
                 <ul>
-                    <li><a href="https://data.sfgov.org/Public-Safety/Police-Department-Incident-Reports-2018-to-Present/wg3w-h783" target="_blank" rel="noopener noreferrer">DataSF: Police Department Incident Reports (2018 to Present)</a>.</li>
-                    <li><a href="https://data.sfgov.org/widgets/tmnf-yvry" target="_blank" rel="noopener noreferrer">DataSF: Police Department Incident Reports (Historical 2003 to May 2018)</a>.</li>
-                    <li><a href="https://link.springer.com/article/10.1186/s40163-017-0069-x" target="_blank" rel="noopener noreferrer">Lee, Y., Eck, J. E., O, S., & Martinez, N. N. (2017). How concentrated is crime at places? A systematic review from 1970 to 2015.</a></li>
-                    <li><a href="https://doi.org/10.1111/1745-9125.12070" target="_blank" rel="noopener noreferrer">Weisburd, D. (2015). The law of crime concentration and the criminology of place.</a></li>
-                    <li><a href="https://academic.oup.com/jrssig/article/13/5/14/7029190" target="_blank" rel="noopener noreferrer">Lum, K., & Isaac, W. (2016). To predict and serve?</a></li>
-                    <li><a href="https://nyulawreview.org/online-features/dirty-data-bad-predictions-how-civil-rights-violations-impact-police-data-predictive-policing-systems-and-justice/" target="_blank" rel="noopener noreferrer">Richardson, R., Schultz, J. M., & Crawford, K. (2019). Dirty Data, Bad Predictions.</a></li>
+                    <li id="data-current"><a href="https://data.sfgov.org/Public-Safety/Police-Department-Incident-Reports-2018-to-Present/wg3w-h783" target="_blank" rel="noopener noreferrer">DataSF: Police Department Incident Reports (2018 to Present)</a>.</li>
+                    <li id="data-historical"><a href="https://data.sfgov.org/widgets/tmnf-yvry" target="_blank" rel="noopener noreferrer">DataSF: Police Department Incident Reports (Historical 2003 to May 2018)</a>.</li>
+                    <li id="lee"><a href="https://link.springer.com/article/10.1186/s40163-017-0069-x" target="_blank" rel="noopener noreferrer">Lee, Y., Eck, J. E., O, S., & Martinez, N. N. (2017). How concentrated is crime at places? A systematic review from 1970 to 2015.</a></li>
+                    <li id="weisburd"><a href="https://doi.org/10.1111/1745-9125.12070" target="_blank" rel="noopener noreferrer">Weisburd, D. (2015). The law of crime concentration and the criminology of place.</a></li>
+                    <li id="lum"><a href="https://academic.oup.com/jrssig/article/13/5/14/7029190" target="_blank" rel="noopener noreferrer">Lum, K., & Isaac, W. (2016). To predict and serve?</a></li>
+                    <li id="richardson"><a href="https://nyulawreview.org/online-features/dirty-data-bad-predictions-how-civil-rights-violations-impact-police-data-predictive-policing-systems-and-justice/" target="_blank" rel="noopener noreferrer">Richardson, R., Schultz, J. M., & Crawford, K. (2019). Dirty Data, Bad Predictions.</a></li>
+                    <li id="ensign"><a href="https://proceedings.mlr.press/v81/ensign18a.html" target="_blank" rel="noopener noreferrer">Ensign, D., Friedler, S. A., Neville, S., Scheidegger, C., & Venkatasubramanian, S. (2018). Runaway feedback loops in predictive policing.</a></li>
+                    <li id="segel"><a href="https://doi.org/10.1109/TVCG.2010.179" target="_blank" rel="noopener noreferrer">Segel, E., & Heer, J. (2010). Narrative visualization: Telling stories with data.</a></li>
                 </ul>
             </div>
         </div>
