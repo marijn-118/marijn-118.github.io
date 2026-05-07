@@ -1,121 +1,637 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Illusion of the Average Neighborhood</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Follow the Money — NYC Taxi Tip Geography 2023</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <nav>
-        <a href="#power-law">1. Where the Crime Actually Shows Up</a>
-        <a href="#rhythms">2. When the Patterns Repeat</a>
-        <a href="#feedback">3. How Data Can Feed Itself</a>
-        <a href="#conclusion">Conclusion</a>
-    </nav>
+<!-- ══ HERO ══════════════════════════════════════════════════════════ -->
+<header class="hero">
+  <p class="hero-kicker">NYC Data Story · 2023</p>
+  <h1>Follow the Money</h1>
+  <p class="subtitle">
+    In New York City, where a taxi trip starts determines how much the driver earns.
+    An analysis of 29 million rides and US Census income data reveals the striking
+    geography of tipping — and what it says about the city's economic divide.
+  </p>
+  <p class="hero-meta">TLC Yellow Taxi Data · ACS 2023 Income · Analysis by s253129,s253154,s257688</p>
 
-    <header>
-        <h1>The Illusion of the Average Neighborhood</h1>
-        <p class="subtitle">A look at San Francisco crime data shows why neighborhood averages can be misleading: most incidents are clustered in a few places, and some of the pattern comes from policing itself.</p>
-        <p class="byline">By s257688, s253129, s253154 | Social Data Analysis 2026, Assignment 2</p>
-    </header>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="num">26.6%</span>
+      <span class="lbl">Avg tip — Upper East Side</span>
+    </div>
+    <div class="hero-stat">
+      <span class="num">5.9%</span>
+      <span class="lbl">Avg tip — lowest-income zones</span>
+    </div>
+    <div class="hero-stat">
+      <span class="num">r = 0.66</span>
+      <span class="lbl">Income–tip correlation</span>
+    </div>
+    <div class="hero-stat">
+      <span class="num">29M</span>
+      <span class="lbl">Taxi trips analysed</span>
+    </div>
+  </div>
+</header>
 
+<!-- ══ NAVIGATION ════════════════════════════════════════════════════ -->
+<nav>
+  <a href="#intro">Introduction</a>
+  <a href="#tipmap">The Tip Map</a>
+  <a href="#income">The Income Link</a>
+  <a href="#rankings">Zone Rankings</a>
+  <a href="#night">Night Effect</a>
+  <a href="#caveats">Limitations</a>
+  <a href="#conclusion">Conclusion</a>
+  <a href="explainer_notebook.ipynb" target="_blank" style="margin-left:auto; opacity:0.75;">📓 Explainer Notebook</a>
+</nav>
 
+<!-- ══ SECTION 1 · INTRODUCTION ══════════════════════════════════════ -->
+<section id="intro">
+  <div class="container">
+    <p class="section-label">Section 1</p>
+    <h2 class="section-title">Where You Start Is Everything</h2>
 
+    <p>
+      Every New York City taxi trip begins with a decision: where to position
+      yourself to find the next fare. That decision — which street, which
+      neighbourhood, which borough — shapes a driver's income more than almost
+      anything else. But how much does it actually matter?
+    </p>
+    <p>
+      To answer that, we analysed all <strong>29 million credit-card yellow
+      taxi trips</strong> made in New York City in 2023. To ensure a fair
+      comparison across zones, we restricted the analysis to the
+      <strong>193 taxi zones with at least 500 yellow taxi trips</strong> —
+      the threshold at which yellow taxis are a meaningful, regular presence
+      in an area rather than an occasional occurrence. We then cross-referenced
+      with <strong>US Census Bureau income data</strong> (American Community
+      Survey 2023) covering 2,192 census tracts across all five boroughs.
+      What emerged is a portrait of extraordinary inequality: from the
+      lowest-income zones (6% average tip) to the highest (24%), the gap
+      spans nearly <strong>four times</strong>.
+    </p>
 
+    <div class="pullquote">
+      "A driver whose shift keeps them in the Upper East Side earns tips nearly
+      300 times larger — as a percentage of fare — than a driver spending the
+      same hours in Arden Heights or Co-Op City."
+    </div>
 
-    <main>
-        <div class="intro-text">
-            <p>When people look for a place to live, they usually want a simple answer: is this neighborhood safe or not? That makes sense, but averages can hide a lot. A district can look risky on paper even when most of its blocks are quiet.</p>
-            <p>To dig into that, we used more than two decades of incident reports from <a href="#data-current" class="source-link">SF OpenData</a> and <a href="#data-historical" class="source-link">its historical incident archive</a>. The dataset includes time, category, and location, but it is still a record of police-reported incidents, not a perfect measure of every crime that happened. Once the data is mapped out, the picture gets clearer: crime is not spread evenly across the city. It tends to gather in specific corners, blocks, and time windows, which changes how we should think about policing and city planning.</p>
-        </div>
+    <p>
+      The explanation turns out to be straightforward: <strong>neighbourhood
+      income predicts taxi tip rates better than almost any other factor we
+      tested</strong>. Zones where the median household income exceeds $150,000
+      produce average tips of 23%. Zones where the median income sits below
+      $50,000 average just 6%. The tip map is, in essence, a map of wealth.
+    </p>
 
-        <div id="power-law" class="viz-section">
-            <h2>1. Where the Crime Actually Shows Up</h2>
-            <p>Larceny theft is the most common offense in San Francisco, but the city-wide average does not tell the full story. Research on crime concentration shows that this kind of pattern is normal in place-based crime data, not an exception <a href="#weisburd" class="source-link">[Weisburd, 2015]</a> and is consistent with broader reviews of crime concentration at places <a href="#lee" class="source-link">[Lee et al., 2017]</a>. When the city is broken into 100m by 100m blocks, most of those blocks are quiet. A small number of places carry a huge share of the incidents, while everything around them looks very different.</p>
-            
-            <figure>
-                <img src="images/power_law_plot.png" alt="Log-log plot showing power law distribution of theft">
-                <figcaption><strong>Figure 1: The Power Law of Theft.</strong> The linear plot is hard to read because so many blocks sit near zero. The log-log version makes the pattern easier to see: theft is heavily concentrated in a small number of blocks, while most blocks have very little activity.</figcaption>
-            </figure>
+    <div class="stat-row">
+      <div class="stat-card">
+        <span class="val">29.1M</span>
+        <span class="desc">Credit-card taxi trips</span>
+      </div>
+      <div class="stat-card">
+        <span class="val">2,192</span>
+        <span class="desc">Census tracts with income data</span>
+      </div>
+      <div class="stat-card">
+        <span class="val">193</span>
+        <span class="desc">Zones with ≥500 trips (in scope)</span>
+      </div>
+      <div class="stat-card">
+        <span class="val">r = 0.66</span>
+        <span class="desc">Spearman: income ↔ tips</span>
+      </div>
+    </div>
 
-            <p>That is the problem with relying on one average for an entire neighborhood. If a single hotspot pushes the numbers up, the whole area can be labeled dangerous even though most of it looks nothing like that. The statistic becomes easy to quote, but hard to trust.</p>
-        </div>
+    <p>
+      We kept only credit-card trips because cash tips are not captured in
+      the data. Tip percentage was calculated as tip&thinsp;÷&thinsp;fare ×&thinsp;100,
+      and trips were filtered to remove invalid records (zero-distance, extreme
+      outliers, records outside 2023). The 29.1 million trips that remain
+      represent the reliable, measurable slice of NYC taxi activity.
+    </p>
+    <p>
+      Neighbourhood income was obtained from the US Census Bureau's American
+      Community Survey (ACS) 5-year estimates for 2023, table B19013 (Median
+      Household Income). Census tract income was spatially joined to taxi zones
+      using area-weighted interpolation.
+    </p>
+  </div>
+</section>
 
-        <div id="rhythms" class="viz-section">
-            <h2>2. When the Patterns Repeat</h2>
-            <p>If crime is clustered in space, it is often clustered in time too. Some offenses seem to follow a clear rhythm, but that rhythm is not always about criminal behavior. In some cases, it is also shaped by when police are present and what they are able to record <a href="#lum" class="source-link">[Lum & Isaac, 2016]</a>.</p>
+<!-- ══ SECTION 2 · THE TIP MAP ════════════════════════════════════════ -->
+<section id="tipmap">
+  <div class="container">
+    <p class="section-label">Section 2</p>
+    <h2 class="section-title">The Tip Map: A City Divided</h2>
 
-            <figure>
-                <iframe src="visualizations/interactive_heatmap.html"></iframe>
-                <figcaption><strong>Figure 2: Temporal Crime Heatmap.</strong> Hover over the blocks to explore the incident counts. The chart shows that some categories appear at very specific times of day and on certain days of the week, instead of being spread evenly across time.</figcaption>
-            </figure>
+    <p>
+      The map below shows the average tip percentage for each NYC taxi zone,
+      based on pickup location. The pattern is immediately striking:
+      <strong>Manhattan concentrates all the deep blue (high-tip) zones</strong>,
+      while the outer boroughs — particularly the Bronx and Staten Island —
+      are dominated by orange and red.
+    </p>
+  </div>
 
-            <p>This heatmap makes one thing obvious: not every incident category behaves the same way. Some offenses are reported no matter what, while others only enter the dataset when police are in the right place at the right time. That means part of the pattern may reflect enforcement, not just crime itself.</p>
-        </div>
+  <div class="wide-container">
+    <div class="viz-wrap">
+      <iframe src="visualizations/tip_pct_map.html" height="580" loading="lazy"></iframe>
+    </div>
+    <p class="viz-caption">
+      Figure 1 — Average tip % by NYC taxi pickup zone (2023 · credit-card trips only).
+      Colour scale: red = lowest tips, blue = highest tips. Hover for zone details.
+    </p>
+  </div>
 
-        <div id="feedback" class="viz-section">
-            <h2>3. How Data Can Feed Itself</h2>
-            <p>This is where the risk starts. If a map is built mostly from enforcement-heavy incidents, it can end up showing where police spend time, not just where harm is happening <a href="#richardson" class="source-link">[Richardson et al., 2019]</a>.</p>
+  <div class="container">
+    <p>
+      The geographical clustering is unmistakable. Manhattan's Upper East Side,
+      Upper West Side, and Midtown zones form a dense pocket of high-tip
+      activity. Cross the Harlem River into the Bronx, or head to the outer
+      reaches of Staten Island, and the colour shifts dramatically toward red.
+    </p>
+    <p>
+      Notably, Queens shows a more mixed picture than Brooklyn or the Bronx.
+      The airport zones (JFK, LaGuardia) and several inner-Queens neighbourhoods
+      reach moderate tip rates — consistent with the mix of airport passengers
+      (who tip generously) and local residents (who tend to tip less).
+    </p>
 
-            <figure>
-                <iframe src="visualizations/sf_crime_heatmap.html"></iframe>
-                <figcaption><strong>Figure 3: Enforcement Hotspots.</strong> This Folium heatmap shows strong hotspots in a few neighborhoods, especially the Tenderloin and the Mission. Because many of the incidents depend on police presence, the map may say as much about patrol allocation as it does about city-wide offense rates.</figcaption>
-            </figure>
+    <h3 style="color:var(--navy); margin: 1.5rem 0 0.8rem;">Borough Averages Tell the Story</h3>
+    <p>
+      Aggregating tips at the borough level — weighted by number of trips —
+      reveals a stark hierarchy:
+    </p>
 
-            <p>If a predictive policing model learns from that kind of map, it can start to repeat the same pattern over and over. More officers in one place means more recorded incidents there, which makes the next map look even more concentrated. That is the kind of loop researchers have warned about: the model is not simply describing reality, it is helping shape the data that comes next <a href="#ensign" class="source-link">[Ensign et al., 2018]</a>.</p>
-        </div>
+    <table class="bucket-table">
+      <thead>
+        <tr>
+          <th>Borough</th>
+          <th>Weighted Avg Tip %</th>
+          <th>Character</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="danger-low">
+          <td><strong>Manhattan</strong></td>
+          <td><strong>25.2%</strong></td>
+          <td>High-income residents, business travel, tourism</td>
+        </tr>
+        <tr class="danger-low">
+          <td><strong>Queens</strong></td>
+          <td><strong>20.9%</strong></td>
+          <td>Airport trips significantly inflate the average</td>
+        </tr>
+        <tr class="danger-med">
+          <td><strong>EWR (Newark)</strong></td>
+          <td><strong>14.1%</strong></td>
+          <td>Airport zone, single zone, mixed passengers</td>
+        </tr>
+        <tr class="danger-high">
+          <td><strong>Brooklyn</strong></td>
+          <td><strong>13.2%</strong></td>
+          <td>Diverse mix; low in outer areas</td>
+        </tr>
+        <tr class="danger-vhigh">
+          <td><strong>Bronx</strong></td>
+          <td><strong>1.5%</strong></td>
+          <td>Lower-income residential, few tourist trips</td>
+        </tr>
+        <tr class="danger-vhigh">
+          <td><strong>Staten Island</strong></td>
+          <td><strong>0.5%</strong></td>
+          <td>Sparse yellow taxi coverage, outer residential</td>
+        </tr>
+      </tbody>
+    </table>
 
-        <div id="conclusion" class="viz-section">
-            <h2>Conclusion</h2>
-            <p>Data visualization is useful, but it can also be misleading if we read it too quickly. Neighborhood averages miss how concentrated crime can be. They also miss the fact that some of the data reflects police activity as much as public activity. If we want to understand a city honestly, we have to look past the average and ask what the map is actually measuring <a href="#segel" class="source-link">[Segel & Heer, 2010]</a>.</p>
+    <p>
+      The gap between Manhattan (25.2%) and the Bronx (1.5%) is not a rounding
+      difference — it is a <strong>17-fold difference</strong> in average tip
+      rate, driven by fundamentally different passenger profiles, income levels,
+      and trip types.
+    </p>
+  </div>
+</section>
 
-            <div class="references" id="sources">
-                <h3>Sources & Further Reading</h3>
-                <ul>
-                    <li id="data-current"><a href="https://data.sfgov.org/Public-Safety/Police-Department-Incident-Reports-2018-to-Present/wg3w-h783" target="_blank" rel="noopener noreferrer">DataSF: Police Department Incident Reports (2018 to Present)</a>.</li>
-                    <li id="data-historical"><a href="https://data.sfgov.org/widgets/tmnf-yvry" target="_blank" rel="noopener noreferrer">DataSF: Police Department Incident Reports (Historical 2003 to May 2018)</a>.</li>
-                    <li id="lee"><a href="https://link.springer.com/article/10.1186/s40163-017-0069-x" target="_blank" rel="noopener noreferrer">Lee, Y., Eck, J. E., O, S., & Martinez, N. N. (2017). How concentrated is crime at places? A systematic review from 1970 to 2015.</a></li>
-                    <li id="weisburd"><a href="https://doi.org/10.1111/1745-9125.12070" target="_blank" rel="noopener noreferrer">Weisburd, D. (2015). The law of crime concentration and the criminology of place.</a></li>
-                    <li id="lum"><a href="https://academic.oup.com/jrssig/article/13/5/14/7029190" target="_blank" rel="noopener noreferrer">Lum, K., & Isaac, W. (2016). To predict and serve?</a></li>
-                    <li id="richardson"><a href="https://nyulawreview.org/online-features/dirty-data-bad-predictions-how-civil-rights-violations-impact-police-data-predictive-policing-systems-and-justice/" target="_blank" rel="noopener noreferrer">Richardson, R., Schultz, J. M., & Crawford, K. (2019). Dirty Data, Bad Predictions.</a></li>
-                    <li id="ensign"><a href="https://proceedings.mlr.press/v81/ensign18a.html" target="_blank" rel="noopener noreferrer">Ensign, D., Friedler, S. A., Neville, S., Scheidegger, C., & Venkatasubramanian, S. (2018). Runaway feedback loops in predictive policing.</a></li>
-                    <li id="segel"><a href="https://doi.org/10.1109/TVCG.2010.179" target="_blank" rel="noopener noreferrer">Segel, E., & Heer, J. (2010). Narrative visualization: Telling stories with data.</a></li>
-                </ul>
-            </div>
-        </div>
-    </main>
+<!-- ══ SECTION 3 · THE INCOME LINK ═══════════════════════════════════ -->
+<section id="income">
+  <div class="container">
+    <p class="section-label">Section 3</p>
+    <h2 class="section-title">The Income Link: Data Confirms the Pattern</h2>
 
-    <footer>
-        <p>Created for Social Data Analysis 2026. Built with Python, Plotly, and Folium.</p>
-    </footer>
+    <p>
+      The visual pattern is compelling — but does it hold up statistically?
+      To test this rigorously, we brought in the <strong>US Census Bureau's
+      American Community Survey 2023</strong>, which provides median household
+      income for every census tract in New York City. We spatially joined those
+      2,192 tracts to the 263 taxi zones using area-weighted interpolation,
+      giving each zone a precise income estimate drawn from the Census data.
+    </p>
+    <p>
+      The result: <strong>neighbourhood income is strongly correlated with
+      taxi tip rates</strong>. Restricting to the 193 zones where yellow taxis
+      operate regularly (≥500 trips), the Spearman correlation between median
+      household income and average tip percentage is <strong>r = 0.656</strong>
+      — statistically overwhelming (p &lt; 10⁻²⁴). The Pearson correlation is
+      <strong>r = 0.663</strong>. This is a fair, like-for-like comparison:
+      every zone in the analysis is one where yellow taxis genuinely serve
+      the area.
+    </p>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const sections = document.querySelectorAll('.viz-section');
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        // Card enters the screen -> Fade in and slide up
-                        entry.target.classList.add('active');
-                    } else {
-                        // FIX: Only remove the 'active' class if the card is pushed off the BOTTOM of the screen.
-                        // If it goes off the top, it stays active, preventing the infinite jitter loop!
-                        if (entry.boundingClientRect.top > 0) {
-                            entry.target.classList.remove('active');
-                        }
-                    }
-                });
-            }, {
-                threshold: 0.15 
-            });
+    <p>
+      The income map below mirrors the tip map almost perfectly — deep blue
+      in upper Manhattan, orange and red in the outer boroughs.
+    </p>
+  </div>
 
-            sections.forEach(section => {
-                observer.observe(section);
-            });
-        });
-    </script>
+  <div class="wide-container">
+    <div class="viz-wrap">
+      <iframe src="visualizations/income_map.html" height="580" loading="lazy"></iframe>
+    </div>
+    <p class="viz-caption">
+      Figure 2 — Median household income by NYC taxi zone (ACS 2023, area-weighted from
+      census tracts). Only zones with ≥500 yellow taxi trips are coloured (193 zones);
+      grey zones have insufficient yellow taxi coverage and are excluded from analysis.
+    </p>
+  </div>
+
+  <div class="container">
+    <p>
+      The scatter plot below makes the relationship explicit. Each point is a
+      taxi zone. The x-axis shows median household income (in thousands of dollars,
+      from ACS 2023). The y-axis shows average tip percentage. Bubble size reflects
+      trip volume. The upward trend is clear and consistent across all boroughs.
+    </p>
+  </div>
+
+  <div class="wide-container">
+    <div class="viz-wrap">
+      <iframe src="visualizations/income_vs_tips_scatter.html" height="540" loading="lazy"></iframe>
+    </div>
+    <p class="viz-caption">
+      Figure 3 — Average tip % vs median household income per taxi zone (2023),
+      193 zones with ≥500 yellow taxi trips. Bubble size = trip volume.
+      OLS trend line shown. Spearman r = 0.66 (p &lt; 0.001). Hover for zone details.
+    </p>
+  </div>
+
+  <div class="container">
+    <h3 style="color:var(--navy); margin: 2rem 0 1rem;">Breaking It Down: Income Quintiles</h3>
+    <p>
+      Dividing the 193 in-scope zones into five equal groups (quintiles) by median
+      household income makes the gradient unmistakable. From the lowest-income
+      quintile (median ~$43k) to the highest (median ~$182k), average tip rates
+      jump from <strong>5.9%</strong> to <strong>23.7%</strong> — a fourfold difference,
+      in a comparison where every zone has meaningful yellow taxi activity.
+    </p>
+  </div>
+
+  <div class="wide-container">
+    <div class="viz-wrap">
+      <iframe src="visualizations/tip_by_income_group.html" height="460" loading="lazy"></iframe>
+    </div>
+    <p class="viz-caption">
+      Figure 4 — Average tip % by neighbourhood income quintile. Q1 = lowest-income zones,
+      Q5 = highest-income zones. Hover for number of zones, trips, and median income per group.
+    </p>
+  </div>
+
+  <div class="container">
+    <table class="bucket-table">
+      <thead>
+        <tr>
+          <th>Income Quintile</th>
+          <th>Zones</th>
+          <th>Total Trips</th>
+          <th>Mean Tip %</th>
+          <th>Median Zone Income</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="danger-vhigh">
+          <td><strong>Q1 Lowest</strong></td>
+          <td>39</td>
+          <td>338,931</td>
+          <td><strong>5.9%</strong></td>
+          <td>$43,434</td>
+        </tr>
+        <tr class="danger-high">
+          <td><strong>Q2</strong></td>
+          <td>38</td>
+          <td>1,509,184</td>
+          <td><strong>5.7%</strong></td>
+          <td>$70,705</td>
+        </tr>
+        <tr class="danger-med">
+          <td><strong>Q3</strong></td>
+          <td>39</td>
+          <td>2,481,387</td>
+          <td><strong>8.7%</strong></td>
+          <td>$88,886</td>
+        </tr>
+        <tr class="danger-low">
+          <td><strong>Q4</strong></td>
+          <td>38</td>
+          <td>7,968,029</td>
+          <td><strong>17.0%</strong></td>
+          <td>$116,684</td>
+        </tr>
+        <tr class="danger-low">
+          <td><strong>Q5 Highest</strong></td>
+          <td>39</td>
+          <td>16,827,890</td>
+          <td><strong>23.7%</strong></td>
+          <td>$182,103</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p style="margin-top:1rem;">
+      The Q5 group alone accounts for nearly <strong>16.8 million trips</strong> —
+      by far the largest trip volume — and produces tips averaging 23.7%.
+      This is where Manhattan's most active taxi corridors sit: zones with
+      high income, high trip density, and passengers accustomed to pressing
+      the higher tip buttons on payment terminals.
+    </p>
+
+    <div class="findings-grid" style="margin-top:2rem;">
+      <div class="finding-card" style="border-color:var(--red);">
+        <div class="icon">💰</div>
+        <h4>Strong Correlation</h4>
+        <p>Median income vs avg tip: Spearman r = 0.656, Pearson r = 0.663 — measured on 193 zones where yellow taxis genuinely operate (≥500 trips each).</p>
+      </div>
+      <div class="finding-card" style="border-color:var(--blue);">
+        <div class="icon">📈</div>
+        <h4>Fourfold Gap</h4>
+        <p>From the lowest income quintile (5.9% tip, ~$43k income) to the highest (23.7%, ~$182k income) — a clean, like-for-like comparison across active zones.</p>
+      </div>
+      <div class="finding-card" style="border-color:var(--navy);">
+        <div class="icon">🗺️</div>
+        <h4>Maps Align Almost Perfectly</h4>
+        <p>The tip percentage map and the income map trace almost the same contours — particularly the Upper East/West Side pockets of high income and high tips.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECTION 4 · ZONE RANKINGS ══════════════════════════════════════ -->
+<section id="rankings">
+  <div class="container">
+    <p class="section-label">Section 4</p>
+    <h2 class="section-title">The Highest and Lowest Earning Zones</h2>
+
+    <p>
+      Zooming to the zone level, the contrast is even more vivid.
+      <strong>Upper West Side South</strong> leads all pickup zones with a
+      26.6% average tip across 838,000 trips. The top 10 list reads like
+      a map of Manhattan's most affluent residential corridors:
+      Upper East Side, Lincoln Square, Flatiron, Greenwich Village — all
+      zones where median household incomes exceed $130,000 per year.
+    </p>
+    <p>
+      At the other extreme, <strong>Arden Heights</strong> on Staten Island
+      records a 0.09% average tip — essentially zero — across 287 trips.
+      Co-Op City in the Bronx, Far Rockaway in Queens, and Hammels/Arverne
+      round out the bottom, all with average tips below 0.3%.
+    </p>
+  </div>
+
+  <div class="wide-container">
+    <div class="viz-wrap">
+      <iframe src="visualizations/zone_tip_ranking.html" height="720" loading="lazy"></iframe>
+    </div>
+    <p class="viz-caption">
+      Figure 5 — Top 15 and bottom 15 pickup zones by average tip percentage
+      (minimum 500 trips). Green bars = high-tip zones; red bars = low-tip zones.
+    </p>
+  </div>
+
+  <div class="container">
+    <h3 style="color:var(--navy); margin-bottom:1rem;">Top 10 Pickup Zones by Avg Tip</h3>
+    <table class="bucket-table">
+      <thead>
+        <tr>
+          <th>Zone</th>
+          <th>Borough</th>
+          <th>Avg Tip %</th>
+          <th>Trips</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="danger-low"><td>Upper West Side South</td><td>Manhattan</td><td><strong>26.6%</strong></td><td>838,165</td></tr>
+        <tr class="danger-low"><td>Upper East Side South</td><td>Manhattan</td><td><strong>26.6%</strong></td><td>1,427,186</td></tr>
+        <tr class="danger-low"><td>Lincoln Square East</td><td>Manhattan</td><td><strong>26.2%</strong></td><td>995,570</td></tr>
+        <tr class="danger-low"><td>Upper East Side North</td><td>Manhattan</td><td><strong>26.2%</strong></td><td>1,285,185</td></tr>
+        <tr class="danger-low"><td>Yorkville West</td><td>Manhattan</td><td><strong>26.1%</strong></td><td>568,595</td></tr>
+        <tr class="danger-low"><td>Lenox Hill West</td><td>Manhattan</td><td><strong>25.8%</strong></td><td>714,161</td></tr>
+        <tr class="danger-low"><td>Flatiron</td><td>Manhattan</td><td><strong>25.8%</strong></td><td>492,445</td></tr>
+        <tr class="danger-low"><td>Greenwich Village North</td><td>Manhattan</td><td><strong>25.8%</strong></td><td>417,267</td></tr>
+        <tr class="danger-low"><td>Upper West Side North</td><td>Manhattan</td><td><strong>25.7%</strong></td><td>567,911</td></tr>
+        <tr class="danger-low"><td>Sutton Place/Turtle Bay North</td><td>Manhattan</td><td><strong>25.6%</strong></td><td>567,907</td></tr>
+      </tbody>
+    </table>
+
+    <p style="margin-top:1.5rem;">
+      Every single top-10 zone is in Manhattan — and every one corresponds to
+      a neighbourhood where the median household income exceeds $130,000 per year.
+      These are the residential zones of New York's professional class —
+      where trips tend to be short, frequent, and made by passengers who
+      habitually press the 25% or 30% button on the payment terminal.
+    </p>
+
+    <div class="pullquote">
+      The top-earning pickup zones for taxi tips are not near tourist landmarks
+      or Wall Street — they are in the quiet, tree-lined residential blocks of
+      the Upper East and Upper West Sides, where income is among the highest in
+      the country.
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECTION 5 · THE NIGHT EFFECT ══════════════════════════════════ -->
+<section id="night">
+  <div class="container">
+    <p class="section-label">Section 5</p>
+    <h2 class="section-title">The Night Effect</h2>
+
+    <p>
+      The income-tipping relationship holds consistently across both day
+      and night. The structural character of each zone — wealthy and
+      commercial vs lower-income and residential — determines tipping
+      behaviour regardless of the hour.
+    </p>
+    <p>
+      Within that stable structure, an additional pattern emerges from the
+      hourly data: tip percentages in Manhattan show a modest evening bump
+      during leisure hours (restaurants, bars, entertainment venues), while
+      late-night outer-borough trips — residents returning home — drag the
+      city-wide average slightly downward after midnight.
+    </p>
+  </div>
+
+  <div class="wide-container">
+    <div class="viz-wrap">
+      <iframe src="visualizations/nighttime_tips_analysis.html" height="480" loading="lazy"></iframe>
+    </div>
+    <p class="viz-caption">
+      Figure 6 — Left: average tip % by hour of day across all zones.
+      Right: day vs night tip comparison by income group.
+      All groups maintain their relative ordering around the clock.
+    </p>
+  </div>
+
+  <div class="container">
+    <p>
+      High-income zones (wealthy Manhattan corridors) consistently lead
+      throughout the day and night, while lower-income outer-borough zones
+      consistently trail. Time of day modulates the absolute values but
+      does not close the structural gap between zones.
+    </p>
+  </div>
+</section>
+
+<!-- ══ SECTION 7 · LIMITATIONS ═══════════════════════════════════════ -->
+<section id="caveats">
+  <div class="container">
+    <p class="section-label">Section 6</p>
+    <h2 class="section-title">What We Can and Cannot Conclude</h2>
+
+    <div class="caveat-box">
+      <ul>
+        <li><strong>Association, not direct causation.</strong> Income does not
+            directly cause passengers to tip more — it is a proxy for passenger
+            profile, trip type, and payment habits. High-income passengers tend
+            to use preset tip buttons (25–30%), take frequent short trips, and
+            are accustomed to service-economy tipping norms. These mechanisms
+            are well understood, and the association between income and tipping
+            is consistent and strong across every analytical cut we tested.</li>
+
+        <li><strong>Scope: yellow taxi zones with meaningful coverage only.</strong>
+            We restrict the analysis to the 193 zones with at least 500 yellow
+            taxi trips in 2023. Zones below this threshold — mostly outer-borough
+            areas where yellow taxis are rare — are excluded because their few
+            trips are not representative of the area's residents. This makes the
+            comparison fair: every zone in the analysis is one where yellow taxis
+            genuinely serve the population.</li>
+
+        <li><strong>Cash tips are invisible.</strong> We use only credit-card
+            trips. Cash tips — potentially more common in lower-income areas —
+            are entirely missing. If anything this understates the true gap:
+            outer-borough passengers who tip in cash appear as zero-tip in our data,
+            making low-income zone averages look even lower than reality.</li>
+
+        <li><strong>ACS income is an area average, not the individual passenger's income.</strong>
+            We assign zone income from census tract medians — a taxi passenger
+            in a high-income zone may not themselves be high-income. The
+            correlation operates at the zone level, not the individual level.</li>
+      </ul>
+    </div>
+
+    <p>
+      These caveats are important — but they do not undermine the main finding.
+      The borough-level averages (Manhattan 25.2%, Bronx 1.5%, Staten Island 0.5%)
+      are based on millions of trips and are not sensitive to small-sample noise.
+      The income–tip relationship (r = 0.656) is robust and consistent across
+      multiple analytical approaches. The economic geography of NYC taxi tipping
+      is a large-scale, durable pattern.
+    </p>
+  </div>
+</section>
+
+<!-- ══ SECTION 8 · CONCLUSION ════════════════════════════════════════ -->
+<section id="conclusion">
+  <div class="container">
+    <p class="section-label">Section 7</p>
+    <h2 class="section-title">Conclusion: The City's Invisible Fare</h2>
+
+    <p>
+      New York City's taxi tip geography is a map of economic inequality
+      drawn one transaction at a time. The data is unambiguous: drivers
+      who work the Upper East Side, Upper West Side, and Midtown Manhattan
+      corridors earn tips averaging 25–27% per fare. Drivers whose shifts
+      keep them in the Bronx, outer Queens, or Staten Island earn a
+      fraction of that — often less than 1% of fare.
+    </p>
+    <p>
+      The US Census income data explains why. Measured on the 193 zones where
+      yellow taxis genuinely operate — a fair, like-for-like comparison —
+      the Spearman correlation between neighbourhood median household income
+      and average tip rate is <strong>r = 0.656</strong>. The fourfold jump
+      from the lowest-income quintile (5.9% tip, median income ~$43k) to the
+      highest (23.7%, median income ~$182k) is not a quirk of data — it is a
+      structural feature of how wealth distributes across the city and how
+      that distribution shapes everyday economic behaviour.
+    </p>
+
+    <div class="pullquote">
+      "In New York City, the taxi meter starts at the same rate in every
+      neighbourhood. But the tip — that small, voluntary act of generosity —
+      traces the city's economic divide with remarkable precision."
+    </div>
+
+    <p>
+      For taxi drivers, this analysis underscores a reality they already
+      know: where you work in New York is not neutral. The invisible fare
+      — the tip — is not equally distributed across the five boroughs.
+      It follows income, and it follows the economic geography of a city
+      that concentrates opportunity and wealth in ways that are visible,
+      measurable, and persistent.
+    </p>
+
+    <div class="findings-grid" style="margin-top:2rem;">
+      <div class="finding-card" style="border-color:var(--red);">
+        <div class="icon">💰</div>
+        <h4>Income Drives Tips</h4>
+        <p>Spearman r = 0.656 between neighbourhood median income and avg tip % — measured on 193 zones with ≥500 yellow taxi trips, a fair like-for-like comparison.</p>
+      </div>
+      <div class="finding-card" style="border-color:var(--blue);">
+        <div class="icon">🗺️</div>
+        <h4>Manhattan Dominates</h4>
+        <p>Every top-10 tip zone is in Manhattan. Borough weighted avg: Manhattan 25.2%, Bronx 1.5%, Staten Island 0.5%. A 17× gap between top and bottom boroughs.</p>
+      </div>
+      <div class="finding-card" style="border-color:var(--navy);">
+        <div class="icon">📈</div>
+        <h4>Fourfold Income Range</h4>
+        <p>Q1 zones (median income ~$43k): 5.9% tip average. Q5 zones (median income ~$182k): 23.7% tip average. The gradient is steep and consistent across all 193 in-scope zones.</p>
+      </div>
+      <div class="finding-card" style="border-color:var(--muted);">
+        <div class="icon">🕐</div>
+        <h4>Stable Day and Night</h4>
+        <p>The income-tip relationship holds consistently across daytime and nighttime trips alike. Zone character — not time of day — determines the pattern.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ═════════════════════════════════════════════════════════ -->
+<footer>
+  <p>
+    <strong>Data sources:</strong>
+    <a href="https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page" target="_blank" rel="noopener">NYC TLC Yellow Taxi Trip Records 2023</a> ·
+    <a href="https://data.census.gov/table/ACSDT5Y2023.B19013" target="_blank" rel="noopener">US Census Bureau ACS 2023 (Median Household Income, table B19013)</a> ·
+    <a href="https://d37ci6vzurychx.cloudfront.net/misc/taxi_zones.zip" target="_blank" rel="noopener">NYC Taxi Zone Shapefile (TLC)</a> ·
+    <a href="https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html" target="_blank" rel="noopener">US Census TIGER/Line 2023 (Census tract boundaries)</a>
+  </p>
+  <p style="margin-top:0.8rem;">
+    Analysis by <strong>s253129,s253154,s257688 </strong> ·
+    DTU Social Data Analysis and Visualisation · 2026
+  </p>
+  <p style="margin-top:0.5rem; color:#666;">
+    All correlations are associative. No causal claims are made.
+  </p>
+  <p style="margin-top:0.8rem;">
+    <a href="explainer_notebook.ipynb" target="_blank" style="color:#aaa;">📓 Explainer Notebook</a>
+  </p>
+</footer>
+
 </body>
 </html>

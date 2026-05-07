@@ -1,75 +1,74 @@
-# The Illusion of the Average Neighborhood
+# Follow the Money — NYC Taxi Tip Geography 2023
 
-This project is a static data-visualization webpage about crime patterns in San Francisco. It argues that neighborhood-level averages can hide the real structure of crime, which is often concentrated in a small number of places and shaped by policing patterns as much as by offense patterns.
+Website: https://marijn-118.github.io/
 
-The main page presents three connected visual stories:
 
-1. Spatial concentration of theft in small geographic blocks.
-2. Hourly and weekly rhythms in crime reporting and enforcement.
-3. A heatmap that illustrates how enforcement-heavy data can create misleading feedback loops.
+This repository contains the final project for DTU Social Data Analysis and Visualisation. The project investigates how yellow taxi tipping in New York City varies by pickup neighborhood, and whether the geography of tips reflects the geography of neighborhood income.
 
-The project is built as a single HTML page with embedded CSS and JavaScript, plus a few generated visualization files and image assets.
+The main finding is that taxi tip percentages are strongly associated with neighborhood median household income. High-income Manhattan taxi zones consistently produce much higher average tip percentages than lower-income outer-borough zones.
 
-## Project Structure
+## Project Deliverables
 
-- `index.html` - Main narrative page.
-- `images/` - Static images used in the article, such as plots and charts.
-- `visualizations/` - Standalone interactive visualization pages embedded into the main page with `iframe`.
-- `README.md` - Project documentation.
+- `index.html` — the public-facing data story website.
+- `explainer_notebook.ipynb` — the technical explainer notebook with methodology, EDA, analysis, narrative design choices, discussion, contributions, and references.
+- `visualizations/` — exported interactive Plotly HTML visualizations embedded in the website.
+- `analysis/` — optional development materials if retained; the final methodology is documented in the explainer notebook.
+- `style.css` — website styling.
 
-## How To Run
+## Website
 
-This is a static website, so there is no build step.
+Open `index.html` in a browser, or serve the repository through GitHub Pages.
 
-### Option 1: Open directly
+The website is written for a non-technical audience and follows a guided data-story structure:
 
-Open `index.html` in a browser.
+1. Introduction and motivation
+2. Tip percentage map
+3. Income map and income-tip correlation
+4. Zone rankings
+5. Day/night tipping pattern
+6. Limitations
+7. Conclusion
 
-### Option 2: Run a local server
+## Data Sources
 
-Using a local server is recommended, especially if the browser blocks some local file resources.
+- NYC TLC Yellow Taxi Trip Records 2023: https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page
+- US Census Bureau ACS 2023, table B19013, Median Household Income: https://data.census.gov/table/ACSDT5Y2023.B19013
+- NYC TLC Taxi Zone Shapefile: https://d37ci6vzurychx.cloudfront.net/misc/taxi_zones.zip
+- US Census TIGER/Line 2023 census tract boundaries: https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html
 
-From the project folder:
+Raw taxi parquet files are not committed to this repository because of their size. The explainer notebook expects them under `analysis/data/taxi/` if the full pipeline is rerun locally.
 
-```bash
-python3 -m http.server 8000
-```
+## Main Analysis File
 
-Then open:
+- `explainer_notebook.ipynb` documents the final taxi cleaning, zone-level aggregation, ACS income collection, area-weighted spatial join, income-tip correlations, income quintile analysis, visualization choices, discussion, and references.
+
+## Reproducibility Notes
+
+The interactive website can be viewed directly from the committed files. To rerun the full analysis, install the Python geospatial/data stack used by the notebook, including:
+
+- `pandas`
+- `geopandas`
+- `numpy`
+- `scipy`
+- `plotly`
+- `requests`
+- `matplotlib`
+
+Then place the 2023 yellow taxi parquet files in:
 
 ```text
-http://localhost:8000
+analysis/data/taxi/
 ```
 
-If you want to serve only this project folder, make sure your terminal is inside `marijn-118.github.io` before starting the server.
+Then open `explainer_notebook.ipynb` and enable the documented full pipeline cells where noted.
 
-## Dependencies
+## Limitations
 
-There is no package manager setup and no install step. The page relies on:
+- Cash tips are not recorded in the TLC data, so the analysis uses credit-card trips only.
+- Neighborhood income is assigned from ACS tract-level medians to taxi zones; it does not represent the individual passenger's income.
+- The results are associative, not causal.
+- Yellow taxis are not equally common in all boroughs, so low-trip zones are filtered out of the main income analysis.
 
-- Browser support for standard HTML, CSS, JavaScript, and `iframe`.
-- External CDN-hosted libraries used by the exported visualizations, such as Plotly and Leaflet.
+## Authors
 
-Because of those CDN links, the visualizations work best when the machine has internet access.
-
-## Data And Content Notes
-
-- The content is based on San Francisco crime incident data from SF OpenData.
-- The narrative references research on predictive policing, data bias, and narrative visualization.
-- The page is written as a self-contained story, so the visual design and the explanatory text are part of the deliverable, not just supporting documentation.
-
-## Deployment
-
-This repository is suitable for GitHub Pages because it is a static site. If you publish it there, GitHub Pages should serve `index.html` as the homepage automatically.
-
-## Editing
-
-If you change the content or visuals:
-
-- Keep image paths in `index.html` aligned with the files in `images/`.
-- Keep the `iframe` paths aligned with files in `visualizations/`.
-- If you regenerate the embedded charts, make sure the exported HTML files keep working as standalone pages.
-
-## License
-
-No license file is currently included. Add one if you want to define reuse terms explicitly.
+Group project for DTU Social Data Analysis and Visualisation, 2026.
