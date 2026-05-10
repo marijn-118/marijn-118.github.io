@@ -13,9 +13,9 @@
   <p class="hero-kicker">NYC Data Story · 2023</p>
   <h1>Follow the Money</h1>
   <p class="subtitle">
-    In New York City, where a taxi trip starts determines how much the driver earns.
-    An analysis of 29 million rides and US Census income data reveals the striking
-    geography of tipping — and what it says about the city's economic divide.
+    We looked at 29 million NYC taxi rides from 2023 and found something we didn't expect:
+    where a driver picks you up tells you almost exactly how much tip they'll get.
+    The gap between the richest and poorest neighbourhoods? Nearly four times.
   </p>
   <p class="hero-meta">TLC Yellow Taxi Data · ACS 2023 Income · Analysis by s253129,s253154,s257688</p>
 
@@ -58,10 +58,9 @@
     <h2 class="section-title">Where You Start Is Everything</h2>
 
     <p>
-      Every New York City taxi trip begins with a decision: where to position
-      yourself to find the next fare. That decision — which street, which
-      neighbourhood, which borough — shapes a driver's income more than almost
-      anything else. But how much does it actually matter?
+      If you're a taxi driver in New York, where you work matters a lot more than how hard you work.
+      We started wondering: just how big is the difference between driving around the Upper East Side
+      versus the Bronx? The answer surprised us.
     </p>
     <p>
       To answer that, we analysed all <strong>29 million credit-card yellow
@@ -71,23 +70,21 @@
       not just the occasional ride. We then cross-referenced
       with <strong>US Census Bureau income data</strong> (American Community
       Survey 2023) covering 2,192 census tracts across all five boroughs.
-      What emerged is a portrait of extraordinary inequality: from the
-      lowest-income zones (6% average tip) to the highest (24%), the gap
-      spans nearly <strong>four times</strong>.
+      What we found was a pretty stark divide: drivers in the wealthiest zones get tipped around 24%,
+      while drivers in the poorest zones average just 6%. That's nearly <strong>four times</strong> the difference —
+      just based on where you happen to be picking people up.
     </p>
 
     <div class="pullquote">
-      "A driver whose shift keeps them in the Upper East Side earns tips nearly
-      300 times larger — as a percentage of fare — than a driver spending the
-      same hours in Arden Heights or Co-Op City."
+      "Spend a shift on the Upper East Side and you'll earn around 26% tips.
+      Spend it in Arden Heights on Staten Island and you'll earn almost nothing — 0.09%.
+      Same city. Same meter. Completely different outcome."
     </div>
 
     <p>
-      The explanation turns out to be straightforward: <strong>neighbourhood
-      income predicts taxi tip rates better than almost any other factor we
-      tested</strong>. Zones where the median household income exceeds $150,000
-      produce average tips of 23%. Zones where the median income sits below
-      $50,000 average just 6%. The tip map is, in essence, a map of wealth.
+      The explanation turned out to be pretty simple: <strong>neighbourhood income</strong>.
+      Wealthy areas tip a lot. Poorer areas tip very little.
+      The tip map, it turns out, is basically just a map of who lives where.
     </p>
 
     <div class="stat-row">
@@ -131,11 +128,9 @@
     <h2 class="section-title">The Tip Map: A City Divided</h2>
 
     <p>
-      The map below shows the average tip percentage for each NYC taxi zone,
-      based on pickup location. The pattern is immediately striking:
-      <strong>Manhattan concentrates all the deep blue (high-tip) zones</strong>,
-      while the outer boroughs — particularly the Bronx and Staten Island —
-      are dominated by orange and red.
+      Take a look at the map below. Each zone is coloured by average tip percentage —
+      blue means high tips, red means low. The pattern jumps out immediately.
+      <strong>Manhattan is almost entirely blue. The Bronx and Staten Island are almost entirely red.</strong>
     </p>
   </div>
 
@@ -157,10 +152,9 @@
       reaches of Staten Island, and the colour shifts dramatically toward red.
     </p>
     <p>
-      Notably, Queens shows a more mixed picture than Brooklyn or the Bronx.
-      The airport zones (JFK, LaGuardia) and several inner-Queens neighbourhoods
-      reach moderate tip rates — consistent with the mix of airport passengers
-      (who tip generously) and local residents (who tend to tip less).
+      Queens is more mixed — and the reason is airports. JFK and LaGuardia passengers
+      tend to tip well (they're often travelers, often expensing the trip).
+      Local Queens residents, not so much. It averages out to somewhere in the middle.
     </p>
 
     <h3 style="color:var(--navy); margin: 1.5rem 0 0.8rem;">Borough Averages Tell the Story</h3>
@@ -212,10 +206,8 @@
     </table>
 
     <p>
-      The gap between Manhattan (25.2%) and the Bronx (1.5%) is not a rounding
-      difference — it is a <strong>17-fold difference</strong> in average tip
-      rate, driven by fundamentally different passenger profiles, income levels,
-      and trip types.
+      Manhattan tips 25.2% on average. The Bronx tips 1.5%. That's not a small gap —
+      that's <strong>17 times more</strong>. Same city, same taxis, same meter rate.
     </p>
   </div>
 </section>
@@ -227,16 +219,15 @@
     <h2 class="section-title">The Income Link: Data Confirms the Pattern</h2>
 
     <p>
-      The visual pattern is compelling — but does it hold up statistically?
-      To test this rigorously, we brought in the <strong>US Census Bureau's
-      American Community Survey 2023</strong>, which provides median household
-      income for every census tract in New York City. We spatially joined those
-      2,192 tracts to the 263 taxi zones using area-weighted interpolation,
-      giving each zone a precise income estimate drawn from the Census data.
+      The maps looked convincing — but we wanted to check if the numbers actually backed it up.
+      So we pulled in official <strong>US Census income data</strong> for every neighbourhood in New York City
+      and matched it to the taxi zones. Then we compared: do richer neighbourhoods actually tip more?
     </p>
     <p>
-      The result: <strong>neighbourhood income is strongly correlated with
-      taxi tip rates</strong>. The pattern is striking: richer neighbourhoods tip dramatically more. The relationship is strong, consistent, and holds across every borough and every way we tested it. <small style="color:#888;">(For the technically curious: Spearman r = 0.656, p &lt; 10<sup>-24</sup> — full methodology in the explainer notebook.)</small>
+      Yes — by a lot. The relationship between neighbourhood income and tip percentage
+      is strong and consistent across every borough. Richer neighbourhoods tip more.
+      Poorer neighbourhoods tip less. And the pattern holds no matter how we cut the data.
+      <small style="color:#888;">(For the technically curious: Spearman r = 0.656, p &lt; 10<sup>-24</sup> — full methodology in the explainer notebook.)</small>
     </p>
 
     <p>
@@ -258,10 +249,9 @@
 
   <div class="container">
     <p>
-      The scatter plot below makes the relationship explicit. Each point is a
-      taxi zone. The x-axis shows median household income (in thousands of dollars,
-      from ACS 2023). The y-axis shows average tip percentage. Bubble size reflects
-      trip volume. The upward trend is clear and consistent across all boroughs.
+      The scatter plot below puts every taxi zone on a chart — income on one axis,
+      average tip on the other. Each bubble is a neighbourhood. The bigger the bubble,
+      the more trips. The trend goes one way: up.
     </p>
   </div>
 
@@ -279,11 +269,10 @@
   <div class="container">
     <h3 style="color:var(--navy); margin: 2rem 0 1rem;">Breaking It Down: Income Quintiles</h3>
     <p>
-      Dividing the 193 in-scope zones into five equal groups (quintiles) by median
-      household income makes the gradient unmistakable. From the lowest-income
-      quintile (median ~$43k) to the highest (median ~$182k), average tip rates
-      jump from <strong>5.9%</strong> to <strong>23.7%</strong> — a fourfold difference,
-      in a comparison where every zone has meaningful yellow taxi activity.
+      We split all the zones into five groups by income — from poorest to richest.
+      The difference between the bottom group and the top group is stark:
+      <strong>5.9%</strong> average tip vs <strong>23.7%</strong>. That's nearly four times more,
+      just by being in a wealthier neighbourhood.
     </p>
   </div>
 
@@ -348,11 +337,9 @@
     </table>
 
     <p style="margin-top:1rem;">
-      The Q5 group alone accounts for nearly <strong>16.8 million trips</strong> —
-      by far the largest trip volume — and produces tips averaging 23.7%.
-      This is where Manhattan's most active taxi corridors sit: zones with
-      high income, high trip density, and passengers accustomed to pressing
-      the higher tip buttons on payment terminals.
+      The wealthiest group also has by far the most trips — <strong>16.8 million</strong> of them.
+      These are the busy Manhattan corridors where people hail taxis constantly,
+      and where hitting the 25% or 30% button on the payment screen is just habit.
     </p>
 
     <div class="findings-grid" style="margin-top:2rem;">
@@ -382,18 +369,15 @@
     <h2 class="section-title">The Highest and Lowest Earning Zones</h2>
 
     <p>
-      Zooming to the zone level, the contrast is even more vivid.
-      <strong>Upper West Side South</strong> leads all pickup zones with a
-      26.6% average tip across 838,000 trips. The top 10 list reads like
-      a map of Manhattan's most affluent residential corridors:
-      Upper East Side, Lincoln Square, Flatiron, Greenwich Village — all
-      zones where median household incomes exceed $130,000 per year.
+      Want to know the best place to be a taxi driver in New York?
+      <strong>Upper West Side South</strong> — 26.6% average tip, 838,000 trips.
+      The entire top 10 is Manhattan. Every single zone.
+      All of them are neighbourhoods where the median household income is above $130,000.
     </p>
     <p>
-      At the other extreme, <strong>Arden Heights</strong> on Staten Island
-      records a 0.09% average tip — essentially zero — across 287 trips.
-      Co-Op City in the Bronx, Far Rockaway in Queens, and Hammels/Arverne
-      round out the bottom, all with average tips below 0.3%.
+      At the other end: <strong>Arden Heights</strong>, Staten Island. Average tip: 0.09%.
+      Basically nothing. Co-Op City in the Bronx and Far Rockaway in Queens aren't far behind.
+      These are all working-class outer-borough neighbourhoods — and the tips reflect that.
     </p>
   </div>
 
@@ -433,19 +417,10 @@
     </table>
 
     <p style="margin-top:1.5rem;">
-      Every single top-10 zone is in Manhattan — and every one corresponds to
-      a neighbourhood where the median household income exceeds $130,000 per year.
-      These are the residential zones of New York's professional class —
-      where trips tend to be short, frequent, and made by passengers who
-      habitually press the 25% or 30% button on the payment terminal.
+      What surprised us: the best zones aren't Times Square or Wall Street.
+      They're residential streets on the Upper East and Upper West Sides —
+      where wealthy New Yorkers live, take short frequent trips, and tip out of habit.
     </p>
-
-    <div class="pullquote">
-      The top-earning pickup zones for taxi tips are not near tourist landmarks
-      or Wall Street — they are in the quiet, tree-lined residential blocks of
-      the Upper East and Upper West Sides, where income is among the highest in
-      the country.
-    </div>
   </div>
 </section>
 
@@ -456,10 +431,8 @@
     <h2 class="section-title">The Night Effect</h2>
 
     <p>
-      The income-tipping relationship holds consistently across both day
-      and night. The structural character of each zone — wealthy and
-      commercial vs lower-income and residential — determines tipping
-      behaviour regardless of the hour.
+      We also checked whether time of day changes anything. Does working the night shift make a difference?
+      Short answer: not really. The rich neighbourhoods tip well at 2am just like they do at 2pm.
     </p>
     <p>
       Within that stable structure, an additional pattern emerges from the
@@ -483,10 +456,9 @@
 
   <div class="container">
     <p>
-      High-income zones (wealthy Manhattan corridors) consistently lead
-      throughout the day and night, while lower-income outer-borough zones
-      consistently trail. Time of day modulates the absolute values but
-      does not close the structural gap between zones.
+      There's a small evening bump — people heading out for dinner or drinks tend to tip slightly more.
+      But it doesn't close the gap between Manhattan and the outer boroughs.
+      Not even close.
     </p>
   </div>
 </section>
@@ -529,12 +501,9 @@
     </div>
 
     <p>
-      These caveats are important — but they do not undermine the main finding.
-      The borough-level averages (Manhattan 25.2%, Bronx 1.5%, Staten Island 0.5%)
-      are based on millions of trips and are not sensitive to small-sample noise.
-      The income–tip relationship (r = 0.656) is robust and consistent across
-      multiple analytical approaches. The economic geography of NYC taxi tipping
-      is a large-scale, durable pattern.
+      These are real limitations and worth keeping in mind.
+      But even accounting for them, the pattern is too big and too consistent to explain away.
+      A 17x gap between Manhattan and the Bronx doesn't disappear because of a few caveats.
     </p>
   </div>
 </section>
@@ -546,12 +515,10 @@
     <h2 class="section-title">Conclusion: The City's Invisible Fare</h2>
 
     <p>
-      New York City's taxi tip geography is a map of economic inequality
-      drawn one transaction at a time. The data is unambiguous: drivers
-      who work the Upper East Side, Upper West Side, and Midtown Manhattan
-      corridors earn tips averaging 25–27% per fare. Drivers whose shifts
-      keep them in the Bronx, outer Queens, or Staten Island earn a
-      fraction of that — often less than 1% of fare.
+      We started this project with a simple question: does it matter where you drive in New York?
+      The answer is yes — more than we expected. Drivers in wealthy Manhattan neighbourhoods
+      earn tips of 25–27%. Drivers in the outer boroughs often earn less than 1%.
+      Same job. Same city. Very different outcome.
     </p>
     <p>
       The US Census income data explains why. Measured on the 193 zones where
@@ -560,18 +527,13 @@
     </p>
 
     <div class="pullquote">
-      "In New York City, the taxi meter starts at the same rate in every
-      neighbourhood. But the tip — that small, voluntary act of generosity —
-      traces the city's economic divide with remarkable precision."
+      "The meter is the same everywhere. The tip is not."
     </div>
 
     <p>
-      For taxi drivers, this analysis underscores a reality they already
-      know: where you work in New York is not neutral. The invisible fare
-      — the tip — is not equally distributed across the five boroughs.
-      It follows income, and it follows the economic geography of a city
-      that concentrates opportunity and wealth in ways that are visible,
-      measurable, and persistent.
+      Any taxi driver already knows this intuitively — the Upper East Side is good,
+      the outer Bronx is tough. What the data does is put exact numbers on it.
+      And those numbers are bigger than we expected.
     </p>
 
     <div class="findings-grid" style="margin-top:2rem;">
