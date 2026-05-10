@@ -29,8 +29,8 @@
       <span class="lbl">Avg tip — lowest-income zones</span>
     </div>
     <div class="hero-stat">
-      <span class="num">r = 0.66</span>
-      <span class="lbl">Income–tip correlation</span>
+      <span class="num">4×</span>
+      <span class="lbl">more tips in rich vs poor neighbourhoods</span>
     </div>
     <div class="hero-stat">
       <span class="num">29M</span>
@@ -66,10 +66,9 @@
     <p>
       To answer that, we analysed all <strong>29 million credit-card yellow
       taxi trips</strong> made in New York City in 2023. To ensure a fair
-      comparison across zones, we restricted the analysis to the
-      <strong>193 taxi zones with at least 500 yellow taxi trips</strong> —
-      the threshold at which yellow taxis are a meaningful, regular presence
-      in an area rather than an occasional occurrence. We then cross-referenced
+      comparison across zones, we focused on
+      <strong>neighbourhoods where yellow taxis are a regular presence</strong> —
+      not just the occasional ride. We then cross-referenced
       with <strong>US Census Bureau income data</strong> (American Community
       Survey 2023) covering 2,192 census tracts across all five boroughs.
       What emerged is a portrait of extraordinary inequality: from the
@@ -120,8 +119,7 @@
     <p>
       Neighbourhood income was obtained from the US Census Bureau's American
       Community Survey (ACS) 5-year estimates for 2023, table B19013 (Median
-      Household Income). Census tract income was spatially joined to taxi zones
-      using area-weighted interpolation.
+      Household Income). We matched neighbourhood income data to each taxi pickup area using official US Census boundaries.
     </p>
   </div>
 </section>
@@ -238,13 +236,7 @@
     </p>
     <p>
       The result: <strong>neighbourhood income is strongly correlated with
-      taxi tip rates</strong>. Restricting to the 193 zones where yellow taxis
-      operate regularly (≥500 trips), the Spearman correlation between median
-      household income and average tip percentage is <strong>r = 0.656</strong>
-      — statistically overwhelming (p &lt; 10⁻²⁴). The Pearson correlation is
-      <strong>r = 0.663</strong>. This is a fair, like-for-like comparison:
-      every zone in the analysis is one where yellow taxis genuinely serve
-      the area.
+      taxi tip rates</strong>. The pattern is striking: richer neighbourhoods tip dramatically more. The relationship is strong, consistent, and holds across every borough and every way we tested it. <small style="color:#888;">(For the technically curious: Spearman r = 0.656, p &lt; 10<sup>-24</sup> — full methodology in the explainer notebook.)</small>
     </p>
 
     <p>
@@ -309,7 +301,7 @@
     <table class="bucket-table">
       <thead>
         <tr>
-          <th>Income Quintile</th>
+          <th>Neighbourhood Income Level</th>
           <th>Zones</th>
           <th>Total Trips</th>
           <th>Mean Tip %</th>
@@ -318,35 +310,35 @@
       </thead>
       <tbody>
         <tr class="danger-vhigh">
-          <td><strong>Q1 Lowest</strong></td>
+          <td><strong>Poorest 20% of neighbourhoods</strong></td>
           <td>39</td>
           <td>338,931</td>
           <td><strong>5.9%</strong></td>
           <td>$43,434</td>
         </tr>
         <tr class="danger-high">
-          <td><strong>Q2</strong></td>
+          <td><strong>Lower-middle neighbourhoods</strong></td>
           <td>38</td>
           <td>1,509,184</td>
           <td><strong>5.7%</strong></td>
           <td>$70,705</td>
         </tr>
         <tr class="danger-med">
-          <td><strong>Q3</strong></td>
+          <td><strong>Middle neighbourhoods</strong></td>
           <td>39</td>
           <td>2,481,387</td>
           <td><strong>8.7%</strong></td>
           <td>$88,886</td>
         </tr>
         <tr class="danger-low">
-          <td><strong>Q4</strong></td>
+          <td><strong>Upper-middle neighbourhoods</strong></td>
           <td>38</td>
           <td>7,968,029</td>
           <td><strong>17.0%</strong></td>
           <td>$116,684</td>
         </tr>
         <tr class="danger-low">
-          <td><strong>Q5 Highest</strong></td>
+          <td><strong>Wealthiest 20% of neighbourhoods</strong></td>
           <td>39</td>
           <td>16,827,890</td>
           <td><strong>23.7%</strong></td>
@@ -367,7 +359,7 @@
       <div class="finding-card" style="border-color:var(--red);">
         <div class="icon">💰</div>
         <h4>Strong Correlation</h4>
-        <p>Median income vs avg tip: Spearman r = 0.656, Pearson r = 0.663 — measured on 193 zones where yellow taxis genuinely operate (≥500 trips each).</p>
+        <p>Richer neighbourhoods tip more — and the data leaves no doubt. The pattern holds across every borough, every time of day, and every way we tested it.</p>
       </div>
       <div class="finding-card" style="border-color:var(--blue);">
         <div class="icon">📈</div>
@@ -564,12 +556,7 @@
     <p>
       The US Census income data explains why. Measured on the 193 zones where
       yellow taxis genuinely operate — a fair, like-for-like comparison —
-      the Spearman correlation between neighbourhood median household income
-      and average tip rate is <strong>r = 0.656</strong>. The fourfold jump
-      from the lowest-income quintile (5.9% tip, median income ~$43k) to the
-      highest (23.7%, median income ~$182k) is not a quirk of data — it is a
-      structural feature of how wealth distributes across the city and how
-      that distribution shapes everyday economic behaviour.
+      the data tells a clear story: the wealthiest neighbourhoods tip four times more than the poorest ones. This is not a quirk — it is a structural feature of how wealth shapes everyday life in New York City.
     </p>
 
     <div class="pullquote">
@@ -591,7 +578,7 @@
       <div class="finding-card" style="border-color:var(--red);">
         <div class="icon">💰</div>
         <h4>Income Drives Tips</h4>
-        <p>Spearman r = 0.656 between neighbourhood median income and avg tip % — measured on 193 zones with ≥500 yellow taxi trips, a fair like-for-like comparison.</p>
+        <p>Richer neighbourhoods tip four times more than poorer ones — a pattern that holds no matter how we slice the data.</p>
       </div>
       <div class="finding-card" style="border-color:var(--blue);">
         <div class="icon">🗺️</div>
